@@ -1,7 +1,10 @@
 from datetime import datetime
 
 import requests
+from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
+
+user_agent = UserAgent()
 
 
 def parse_short_data(link, parse_pages=1):
@@ -10,7 +13,7 @@ def parse_short_data(link, parse_pages=1):
     for page in range(1, parse_pages + 1):
         if page > 1:
             link += f'&page={page}'
-        response = requests.get(link)
+        response = requests.get(link, headers={'User-Agent': user_agent.random})
         html = BeautifulSoup(response.text, "lxml")
         vacancies = html.find_all('li', class_='list-jobs__item list__item')
         for vacancy in vacancies:
