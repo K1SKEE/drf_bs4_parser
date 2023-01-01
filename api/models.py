@@ -40,7 +40,8 @@ class Vacancy(models.Model):
                                         verbose_name='Дата публікації')
     views = models.CharField(max_length=50,
                              verbose_name='Перегляди')
-    reviews = models.CharField(verbose_name='Відгуки')
+    reviews = models.CharField(max_length=50,
+                               verbose_name='Відгуки')
     short_description = models.CharField(max_length=255,
                                          verbose_name='Короткий опис')
     description = models.TextField(verbose_name='Опис')
