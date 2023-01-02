@@ -18,7 +18,6 @@ def parse_vacancies(link, parse_pages=1):
             vacancy = get_html(url)
             short_info_vacancy = ShortInfoVacancy(vacancy, domain, url)
             result.append(short_info_vacancy())
-        print(result)
     return result
 
 
@@ -40,6 +39,7 @@ class ShortInfoVacancy:
 
     def __call__(self, *args, **kwargs):
         return {
+            'href': self.get_url(),
             'url': self.url,
             'title': self.get_title(),
             'salary': self.get_salary(),
@@ -53,8 +53,8 @@ class ShortInfoVacancy:
             'other': self.get_additional_info()
         }
 
-    # def get_url(self, domain):
-    #     return domain + self.vacancy.find('a', class_='profile').get('href')
+    def get_url(self):
+        return self.url.split('/')[-2]
 
     def get_title(self):
         title = self.vacancy.find('div',
@@ -99,7 +99,3 @@ class ShortInfoVacancy:
         additional_info = self.vacancy.find_all(
             'div', class_='job-additional-info--item-text')
         return [item.get_text(strip=True) for item in additional_info]
-
-
-parse_vacancies(
-    'https://djinni.co/jobs/?primary_keyword=Python&exp_level=no_exp&exp_level=1y&exp_level=2y')
